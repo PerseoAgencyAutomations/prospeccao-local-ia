@@ -1,0 +1,214 @@
+{
+  "name": "[P3] Limpeza do eval",
+  "description": null,
+  "active": false,
+  "nodes": [
+    {
+      "id": "546f53d3-1fc4-57c1-925b-0bd1a49294a2",
+      "name": "Limpa o eval",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        300
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "pl-limpa",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "webhookId": "REDACTED"
+    },
+    {
+      "id": "d0412506-c74b-5661-a23f-63065b546854",
+      "name": "Confere o token",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "if ($json.body.token !== '<TOKEN_DO_EVAL>') throw new Error('Token do eval inválido');\nreturn { json: { lote: Number($json.body.lote) || 0 } };\n"
+      }
+    },
+    {
+      "id": "45e6851f-df42-595d-8b55-e6911569cc34",
+      "name": "Empresas do eval",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        440,
+        300
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select n.id, n.hubspot_id from pl.negocios n join pl.lotes l on l.id = n.lote_id where l.eval and n.hubspot_id is not null and ($1::int = 0 or l.id = $1::int)",
+        "options": {
+          "queryReplacement": "={{ [ $json.lote ] }}"
+        }
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      }
+    },
+    {
+      "id": "83644ee7-0bd2-5833-b51c-a7056e5fb886",
+      "name": "Apaga a empresa",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "authentication": "appToken",
+        "resource": "company",
+        "operation": "delete",
+        "companyId": "={{ $json.hubspot_id }}"
+      },
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "0c5e2245-af6c-5018-a854-8fead11ec88d",
+      "name": "Junta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const n = $('Empresas do eval').item.json; return { json: { id: n.id, ok: !$json.error, erro: $json.error ? String($json.error.message || $json.error).slice(0, 120) : null } };\n"
+      }
+    },
+    {
+      "id": "c931e98f-63fa-54d3-94ec-a8ac663ebb79",
+      "name": "Junta tudo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const l = $input.all().map(i => i.json); return [{ json: { lista: JSON.stringify(l), falharam: l.filter(x => !x.ok).length } }];\n"
+      }
+    },
+    {
+      "id": "cdc7795b-5b34-5f26-80b6-16279a63cd55",
+      "name": "Marca limpo",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        1320,
+        300
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "with u as (update pl.negocios n set hubspot_id = null, motivo_humano = 'apagado do HubSpot pela limpeza do eval', atualizado_em = now() from jsonb_to_recordset($1::jsonb) as d(id int, ok boolean) where n.id = d.id and d.ok returning n.id) select (select count(*) from u)::int as marcados, jsonb_array_length($1::jsonb) as recebidos, $2::int as falharam",
+        "options": {
+          "queryReplacement": "={{ [ $json.lista, $json.falharam ] }}"
+        }
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Limpa o eval": {
+      "main": [
+        [
+          {
+            "node": "Confere o token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confere o token": {
+      "main": [
+        [
+          {
+            "node": "Empresas do eval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Empresas do eval": {
+      "main": [
+        [
+          {
+            "node": "Apaga a empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apaga a empresa": {
+      "main": [
+        [
+          {
+            "node": "Junta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Junta": {
+      "main": [
+        [
+          {
+            "node": "Junta tudo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Junta tudo": {
+      "main": [
+        [
+          {
+            "node": "Marca limpo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true,
+    "errorWorkflow": "YOUR_WF_C9"
+  },
+  "nodeGroups": [],
+  "versionCounter": 4,
+  "sourceWorkflowId": null,
+  "tags": []
+}

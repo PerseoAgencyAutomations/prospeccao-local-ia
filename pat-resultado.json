@@ -1,0 +1,16 @@
+{
+  "viabilidade": "Feasible",
+  "resultado_geral": 0.4,
+  "picos": "N/A",
+  "fte_equivalente": 0.25,
+  "horas_processo_ano": 520.0,
+  "esforco": 0.49,
+  "esforco_label": "Medium Effort",
+  "beneficio": 0.43,
+  "beneficio_label": "Medium High Benefit",
+  "horas_liberadas_ano": 223.6,
+  "reducao_erro": 0.43,
+  "reducao_aht": 0.2867,
+  "horas_implementar": 560.0,
+  "quadrante": "Low Hanging Fruit"
+}

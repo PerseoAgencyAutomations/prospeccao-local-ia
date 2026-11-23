@@ -1,0 +1,405 @@
+{
+ "_fonte": "Rotulado pelo Claude em 19/11 olhando o retrato (build/ve_retrato.js), sem rodar o fluxo. Os 4 com \"julgamento\" pedem conferência do operador. Régua: cliente fictício vende site + tráfego pra negócio local do nicho; liga pra quem passa na régua de Sorocaba (10+ avaliações, nota 4,5+, telefone, aberto), é do nicho e não tem site próprio bom. Versão pública: cada negócio aparece pelo id. Nome, place_id, telefone, site, avaliações e texto lido pela IA ficam fora do repositório.",
+ "casos": [
+  {
+   "id": "ar-01",
+   "lote": "ar",
+   "nome": "Negócio ar-01",
+   "categoria": "Fornecedor de ar-condicionado",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-02",
+   "lote": "ar",
+   "nome": "Negócio ar-02",
+   "categoria": "Prestador de serviços de climatização",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-03",
+   "lote": "ar",
+   "nome": "Negócio ar-03",
+   "categoria": "Fornecedor de sistemas de ar condicionado",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-04",
+   "lote": "ar",
+   "nome": "Negócio ar-04",
+   "categoria": "Fornecedor de sistemas de ar condicionado",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-05",
+   "lote": "ar",
+   "nome": "Negócio ar-05",
+   "categoria": "Fornecedor de ar-condicionado",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-06",
+   "lote": "ar",
+   "nome": "Negócio ar-06",
+   "categoria": "Loja de materiais de construção",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-07",
+   "lote": "ar",
+   "nome": "Negócio ar-07",
+   "categoria": "Prestador de serviços de climatização",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": "climatização é ar-condicionado: ligar",
+   "injecao": false
+  },
+  {
+   "id": "ar-08",
+   "lote": "ar",
+   "nome": "Negócio ar-08",
+   "categoria": "Eletricista",
+   "ligar": false,
+   "motivo_esperado": "fora_do_nicho",
+   "julgamento": "eletricista (faz infraestrutura de ar, mas não é do nicho): não ligar",
+   "injecao": false
+  },
+  {
+   "id": "ar-09",
+   "lote": "ar",
+   "nome": "Negócio ar-09",
+   "categoria": "R. José Ferreira, 260\nFechado",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-10",
+   "lote": "ar",
+   "nome": "Negócio ar-10",
+   "categoria": "Serviço de conserto de aparelhos de ar-condicionado",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-11",
+   "lote": "ar",
+   "nome": "Negócio ar-11",
+   "categoria": "Oficina de inspeção veicular",
+   "ligar": false,
+   "motivo_esperado": "fora_do_nicho",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-12",
+   "lote": "ar",
+   "nome": "Negócio ar-12",
+   "categoria": "Igreja evangélica",
+   "ligar": false,
+   "motivo_esperado": "fora_do_nicho",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-13",
+   "lote": "ar",
+   "nome": "Negócio ar-13",
+   "categoria": "Fornecedor de ar-condicionado",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-14",
+   "lote": "ar",
+   "nome": "Negócio ar-14",
+   "categoria": "Eletricista",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-15",
+   "lote": "ar",
+   "nome": "Negócio ar-15",
+   "categoria": "Prestador de serviços de climatização",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": true
+  },
+  {
+   "id": "ar-16",
+   "lote": "ar",
+   "nome": "Negócio ar-16",
+   "categoria": "Prestador de serviços de climatização",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-17",
+   "lote": "ar",
+   "nome": "Negócio ar-17",
+   "categoria": "Serviço de conserto de aparelhos de ar-condicionado",
+   "ligar": false,
+   "motivo_esperado": "fora_do_nicho",
+   "julgamento": "loja de peças, não instala: não ligar",
+   "injecao": false
+  },
+  {
+   "id": "ar-18",
+   "lote": "ar",
+   "nome": "Negócio ar-18",
+   "categoria": "Fornecedor de sistemas de ar condicionado",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-19",
+   "lote": "ar",
+   "nome": "Negócio ar-19",
+   "categoria": "Prestador de serviços de climatização",
+   "ligar": false,
+   "motivo_esperado": "tem_site_fora_do_maps",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "ar-20",
+   "lote": "ar",
+   "nome": "Negócio ar-20",
+   "categoria": "Fornecedor",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-01",
+   "lote": "vet",
+   "nome": "Negócio vet-01",
+   "categoria": "Veterinário",
+   "ligar": false,
+   "motivo_esperado": "tem_site_fora_do_maps",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-02",
+   "lote": "vet",
+   "nome": "Negócio vet-02",
+   "categoria": "Veterinário",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-03",
+   "lote": "vet",
+   "nome": "Negócio vet-03",
+   "categoria": "Veterinário",
+   "ligar": false,
+   "motivo_esperado": "fora_do_nicho",
+   "julgamento": "clínica-escola de universidade, não é pequeno negócio: não ligar",
+   "injecao": false
+  },
+  {
+   "id": "vet-04",
+   "lote": "vet",
+   "nome": "Negócio vet-04",
+   "categoria": "Veterinário",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-05",
+   "lote": "vet",
+   "nome": "Negócio vet-05",
+   "categoria": "Veterinário",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-06",
+   "lote": "vet",
+   "nome": "Negócio vet-06",
+   "categoria": "Veterinário",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-07",
+   "lote": "vet",
+   "nome": "Negócio vet-07",
+   "categoria": "Veterinário",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-08",
+   "lote": "vet",
+   "nome": "Negócio vet-08",
+   "categoria": "Serviço veterinário de emergência",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-09",
+   "lote": "vet",
+   "nome": "Negócio vet-09",
+   "categoria": "Veterinário",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-10",
+   "lote": "vet",
+   "nome": "Negócio vet-10",
+   "categoria": "Hospital Veterinário",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-11",
+   "lote": "vet",
+   "nome": "Negócio vet-11",
+   "categoria": "Veterinário",
+   "ligar": false,
+   "motivo_esperado": "site_bom",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-12",
+   "lote": "vet",
+   "nome": "Negócio vet-12",
+   "categoria": "Veterinário",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-13",
+   "lote": "vet",
+   "nome": "Negócio vet-13",
+   "categoria": "Veterinário",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-14",
+   "lote": "vet",
+   "nome": "Negócio vet-14",
+   "categoria": "Veterinário",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-15",
+   "lote": "vet",
+   "nome": "Negócio vet-15",
+   "categoria": "Veterinário",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-16",
+   "lote": "vet",
+   "nome": "Negócio vet-16",
+   "categoria": "Veterinário",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-17",
+   "lote": "vet",
+   "nome": "Negócio vet-17",
+   "categoria": "Veterinário",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-18",
+   "lote": "vet",
+   "nome": "Negócio vet-18",
+   "categoria": "Veterinário",
+   "ligar": true,
+   "motivo_esperado": "ligar",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-19",
+   "lote": "vet",
+   "nome": "Negócio vet-19",
+   "categoria": "Serviço veterinário de emergência",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  },
+  {
+   "id": "vet-20",
+   "lote": "vet",
+   "nome": "Negócio vet-20",
+   "categoria": "Farmácia veterinária",
+   "ligar": false,
+   "motivo_esperado": "regra",
+   "julgamento": null,
+   "injecao": false
+  }
+ ]
+}

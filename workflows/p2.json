@@ -1,0 +1,579 @@
+{
+  "name": "[P2] Aprovação e CRM",
+  "description": null,
+  "active": false,
+  "nodes": [
+    {
+      "id": "40420032-1eb8-527b-8bf4-6a7f8d43a567",
+      "name": "Aprovar lote",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        300
+      ],
+      "parameters": {
+        "formTitle": "Aprovar leads da prospecção",
+        "formDescription": "Digite o número do lote. Você vê a ficha de cada negócio qualificado e decide: ligar (vai pro HubSpot) ou descartar.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Lote nº",
+              "fieldName": "lote",
+              "fieldType": "number",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "path": "aprovar-leads",
+          "appendAttribution": false,
+          "buttonLabel": "Ver os leads"
+        }
+      },
+      "webhookId": "REDACTED"
+    },
+    {
+      "id": "23046c7a-f10d-5dde-b52d-df709dd247f2",
+      "name": "Qualificados do lote",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        220,
+        300
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select $1::int as lote, coalesce((select json_agg(n order by n.avaliacoes desc nulls last) from pl.negocios n where n.lote_id = $1::int and n.etapa = 'qualificado'), '[]') as lista",
+        "options": {
+          "queryReplacement": "={{ [ Number($json.lote ?? $json['Lote nº']) ] }}"
+        }
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      }
+    },
+    {
+      "id": "b6b105fa-c475-5e79-8686-1677a7c13a72",
+      "name": "Monta a página",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nconst lista = $json.lista || [], campos = [];\nif (!lista.length) campos.push({ fieldType: 'html', html: '<p>Nada pra aprovar nesse lote: nenhum qualificado, ou já foram aprovados.</p>' });\nfor (const n of lista) {\n  campos.push({ fieldType: 'html', html: '<hr><p>' + esc(n.ficha).replace(/\\n/g, '<br>') + '</p>' });\n  campos.push({ fieldName: 'n_' + n.id, fieldLabel: 'Decisão: ' + n.nome, fieldType: 'dropdown', requiredField: true,\n                fieldOptions: { values: [\"Ligar: vai pro HubSpot\", \"Descartar: fora do perfil\", \"Descartar: já é cliente ou já falei\", \"Descartar: dado errado\"].map(o => ({ option: o })) }, defaultValue: \"Ligar: vai pro HubSpot\" });\n}\nreturn { json: { lote: $json.lote, lista, campos: JSON.stringify(campos), titulo: 'Lote ' + $json.lote + ': ' + lista.length + ' qualificados' } };\n"
+      }
+    },
+    {
+      "id": "0292dfa9-1bcb-5fef-949f-cee6745eb61e",
+      "name": "Aprovação",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "operation": "page",
+        "defineForm": "json",
+        "jsonOutput": "={{ $json.campos }}",
+        "options": {
+          "formTitle": "={{ $json.titulo }}",
+          "formDescription": "Cada ficha traz o achado e o trecho de onde ele saiu. Nada vai pro CRM sem a sua decisão.",
+          "buttonLabel": "Confirmar"
+        }
+      },
+      "webhookId": "REDACTED"
+    },
+    {
+      "id": "b3904a4d-8f80-51e6-9307-31c3aba01ee5",
+      "name": "Separa a decisão",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const p = $('Monta a página').first().json, r = $input.first().json, decisoes = [], aprovados = [];\nfor (const n of p.lista) {\n  const v = String(r['n_' + n.id] ?? r['Decisão: ' + n.nome] ?? '');\n  if (!v) continue;\n  const ligar = v.startsWith('Ligar');\n  decisoes.push({ id: n.id, etapa: ligar ? 'aprovado' : 'descartado', motivo: ligar ? null : v.replace(/^Descartar: /, '') });\n  if (ligar) aprovados.push(n);\n}\nreturn [{ json: { lote: p.lote, decisoes, aprovados, n_aprovados: aprovados.length, n_descartados: decisoes.length - aprovados.length } }];\n"
+      }
+    },
+    {
+      "id": "1272b256-acfe-571c-9119-565a09fe6d54",
+      "name": "Marca as decisões",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        1100,
+        300
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "with u as (update pl.negocios n set etapa = d.etapa, motivo_humano = d.motivo, atualizado_em = now() from jsonb_to_recordset($1::jsonb) as d(id int, etapa text, motivo text) where n.id = d.id and n.etapa = 'qualificado' returning 1) select count(*)::int as marcados from u",
+        "options": {
+          "queryReplacement": "={{ [ JSON.stringify($json.decisoes) ] }}"
+        }
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      }
+    },
+    {
+      "id": "b33087d1-0ca5-5588-95b3-704e14832c8c",
+      "name": "Só aprovados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const host = u => (String(u || '').match(/^[a-z]+:\\/\\/([^\\/?#:]+)/i) || [, ''])[1].toLowerCase().replace(/^www\\./, '');   // sem URL() no Code node\nreturn $('Separa a decisão').first().json.aprovados.map(neg => {\n  const proprio = neg.site && ['site_ruim', 'site_fora_do_ar'].includes((neg.presenca || {}).tipo);\n  return { json: { neg, dominio: proprio ? host(neg.site) : '', tem_dominio: !!proprio } };\n});\n"
+      }
+    },
+    {
+      "id": "b80bc884-59e5-5164-8fb3-56637bf6c3f9",
+      "name": "Tem domínio?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1540,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b80bc884-59e5-5164-8fb3-56637bf6c3f9",
+              "leftValue": "={{ !!$json.tem_dominio }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "40effc00-a789-5f6f-a160-1a098f74a1b6",
+      "name": "Procura pelo domínio",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        100
+      ],
+      "parameters": {
+        "authentication": "appToken",
+        "resource": "company",
+        "operation": "searchByDomain",
+        "domain": "={{ $json.dominio }}",
+        "options": {}
+      },
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "id": "3da3247e-0835-5145-b087-3a5cd47609cc",
+      "name": "Já existe?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        100
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const neg = $('Só aprovados').item.json.neg, id = $json.companyId ?? null;\nreturn { json: { neg, companyId: id, existe: !!id } };\n"
+      }
+    },
+    {
+      "id": "1fbdca3f-b820-5a50-98a4-1b4d5684341a",
+      "name": "Achou no CRM?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2200,
+        100
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1fbdca3f-b820-5a50-98a4-1b4d5684341a",
+              "leftValue": "={{ !!$json.existe }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "5fb15646-e338-5bf2-bfb1-924cd63f3bc0",
+      "name": "Cria empresa",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        2420,
+        300
+      ],
+      "parameters": {
+        "authentication": "appToken",
+        "resource": "company",
+        "operation": "create",
+        "name": "={{ $json.neg.nome }}",
+        "additionalFields": {
+          "phoneNumber": "={{ $json.neg.telefone || \"\" }}",
+          "city": "={{ $json.neg.cidade || \"\" }}",
+          "websiteUrl": "={{ ['site_ruim', 'site_fora_do_ar'].includes(($json.neg.presenca || {}).tipo) ? $json.neg.site : '' }}",
+          "description": "={{ 'prospeccao-n8n · lote ' + $json.neg.lote_id + ' · ' + (($json.neg.presenca || {}).tipo || '') + ' · nota ' + $json.neg.nota + ' (' + $json.neg.avaliacoes + ' avaliações)' + ($json.neg.site && !['site_ruim', 'site_fora_do_ar'].includes(($json.neg.presenca || {}).tipo) ? ' · link no Maps: ' + $json.neg.site : '') }}"
+        }
+      },
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      }
+    },
+    {
+      "id": "581c025b-7130-5e08-9bff-5858cf1e7311",
+      "name": "Junta o id",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const neg = $json.neg ?? $('Só aprovados').item.json.neg;\nconst companyId = $json.companyId;\nif (!companyId) throw new Error('HubSpot não devolveu o id da empresa de ' + neg.nome);\nconst corpo = String(neg.ficha || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\\n/g, '<br>');\nreturn { json: { neg, companyId: String(companyId), corpo } };\n"
+      }
+    },
+    {
+      "id": "a6127d9c-4fda-5b87-acb9-ca582daa2b65",
+      "name": "Cria tarefa \"Ligar\"",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        2860,
+        200
+      ],
+      "parameters": {
+        "authentication": "appToken",
+        "resource": "engagement",
+        "operation": "create",
+        "type": "task",
+        "dueDate": "={{ $now.plus({ days: 1 }).toISO() }}",
+        "metadata": {
+          "subject": "={{ 'Ligar: ' + $json.neg.nome }}",
+          "body": "={{ $json.corpo }}",
+          "status": "NOT_STARTED"
+        },
+        "additionalFields": {
+          "associations": {
+            "companyIds": "={{ $json.companyId }}"
+          }
+        }
+      },
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "9afb3903-8a77-5d21-b1df-287643ba8b72",
+      "name": "Resultado",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3080,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const j = $('Junta o id').item.json, erro = $json.error ? String($json.error.message || $json.error).slice(0, 200) : null;\nreturn { json: { id: j.neg.id, hubspot_id: j.companyId, tarefa: erro ? null : String(($json.engagement || {}).id || ''), erro } };\n"
+      }
+    },
+    {
+      "id": "42ad4b58-3335-5849-b665-abb678c36217",
+      "name": "Marca no CRM",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        3300,
+        200
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update pl.negocios set etapa = case when ($1::jsonb->>'erro') is null then 'no_crm' else 'aprovado' end, hubspot_id = $1::jsonb->>'hubspot_id', motivo_humano = coalesce('tarefa não criada: ' || ($1::jsonb->>'erro'), motivo_humano), atualizado_em = now() where id = ($1::jsonb->>'id')::int returning id, etapa, hubspot_id",
+        "options": {
+          "queryReplacement": "={{ [ JSON.stringify($json) ] }}"
+        }
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REDACTED",
+          "name": "attach your own credential"
+        }
+      }
+    },
+    {
+      "id": "5cac984f-6fe3-5c0f-bfbf-95818959b7f9",
+      "name": "Resumo",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        1320,
+        480
+      ],
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "showText",
+        "responseText": "={{ '<p>Lote ' + $('Separa a decisão').first().json.lote + ': ' + $('Separa a decisão').first().json.n_aprovados + ' aprovados (empresa + tarefa \"Ligar\" no HubSpot) e ' + $('Separa a decisão').first().json.n_descartados + ' descartados.</p>' }}",
+        "options": {}
+      },
+      "webhookId": "REDACTED"
+    }
+  ],
+  "connections": {
+    "Aprovar lote": {
+      "main": [
+        [
+          {
+            "node": "Qualificados do lote",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qualificados do lote": {
+      "main": [
+        [
+          {
+            "node": "Monta a página",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monta a página": {
+      "main": [
+        [
+          {
+            "node": "Aprovação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aprovação": {
+      "main": [
+        [
+          {
+            "node": "Separa a decisão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separa a decisão": {
+      "main": [
+        [
+          {
+            "node": "Marca as decisões",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marca as decisões": {
+      "main": [
+        [
+          {
+            "node": "Só aprovados",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Resumo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Só aprovados": {
+      "main": [
+        [
+          {
+            "node": "Tem domínio?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tem domínio?": {
+      "main": [
+        [
+          {
+            "node": "Procura pelo domínio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cria empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procura pelo domínio": {
+      "main": [
+        [
+          {
+            "node": "Já existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Já existe?": {
+      "main": [
+        [
+          {
+            "node": "Achou no CRM?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Achou no CRM?": {
+      "main": [
+        [
+          {
+            "node": "Junta o id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cria empresa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cria empresa": {
+      "main": [
+        [
+          {
+            "node": "Junta o id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Junta o id": {
+      "main": [
+        [
+          {
+            "node": "Cria tarefa \"Ligar\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cria tarefa \"Ligar\"": {
+      "main": [
+        [
+          {
+            "node": "Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resultado": {
+      "main": [
+        [
+          {
+            "node": "Marca no CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true,
+    "errorWorkflow": "YOUR_WF_C9"
+  },
+  "nodeGroups": [],
+  "versionCounter": 6,
+  "sourceWorkflowId": null,
+  "tags": []
+}

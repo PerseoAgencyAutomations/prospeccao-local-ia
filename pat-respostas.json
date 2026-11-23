@@ -1,0 +1,32 @@
+{
+ "_fonte": "Operador em 19/11: 60 negócios por semana, 10 min cada (frequency, volume, aht_min). Demais campos: suposição do Claude, marcada em _suposicoes.",
+ "_suposicoes": {
+  "decision_type": "régua de alvo é regra (sem site, 10+ avaliações, nota 4,5+); categoria e qualidade do site pedem julgamento",
+  "input_type": "ficha do Maps é campo estruturado; o site e as avaliações são texto",
+  "process_change": "o nicho e a régua mudaram 3 vezes desde 09/2026 (estética, vet, ar-condicionado)",
+  "app_change": "o Google muda o Maps sem aviso; a ficha sorteada já varia hoje (tools/ficha-maps.cjs)",
+  "exceptions": "Sorocaba ar-condicionado: 11 de 19 alvos eram outro nicho ou leitura errada (sonda-sorocaba-2026-11-10.md); metade disso fecha por regra de categoria, o resto pede olhar",
+  "steps": "buscar, abrir ficha, conferir site, buscar o nome no Google, ler avaliações, decidir, escrever a ficha: 10-15 passos",
+  "decisions": "o negócio é do nicho? o 'sem site' é verdade? vale ligar? pede julgamento",
+  "applications": "Google Maps, busca do Google, site/Instagram do negócio, planilha de ligação",
+  "structured_pct": "campos da ficha estruturados; site e avaliações não"
+ },
+ "decision_type": "Mostly Rule Based",
+ "input_type": "Digital and Structured",
+ "process_change": "Some change",
+ "app_change": "Some change",
+ "employees": 1,
+ "frequency": "Weekly",
+ "volume": 60,
+ "aht_min": 10,
+ "errors": 0.1,
+ "peaks": "The process does not have peaks",
+ "steps": "10-15 steps",
+ "decisions": "The process involves complex decisions",
+ "exceptions": 0.3,
+ "applications": "4-5 aplications",
+ "virtual_machine": "No",
+ "digital_pct": 1,
+ "scanned": "No",
+ "structured_pct": "60%-80%"
+}

@@ -1,0 +1,54 @@
+[
+ {
+  "id": "ar",
+  "retrato": "sorocaba-ar",
+  "nicho": "ar-condicionado",
+  "cidade": "Sorocaba",
+  "termos": [
+   "ar condicionado",
+   "instalação de ar condicionado"
+  ],
+  "exclusoes": [
+   "automotivo",
+   "loja",
+   "insulfilm",
+   "som automotivo",
+   "autopeças"
+  ],
+  "cotas": {
+   "passa·clara·sem": 6,
+   "passa·clara·fraco": 2,
+   "passa·clara·proprio": 4,
+   "passa·ambigua·sem": 2,
+   "passa·ambigua·fraco": 2,
+   "passa·ambigua·proprio": 2,
+   "reprova·fora do perfil": 1,
+   "reprova·poucas avaliações": 1
+  }
+ },
+ {
+  "id": "vet",
+  "retrato": "sorocaba-vet",
+  "nicho": "clínica veterinária",
+  "cidade": "Sorocaba",
+  "termos": [
+   "clínica veterinária",
+   "veterinário"
+  ],
+  "exclusoes": [
+   "pet shop",
+   "banho e tosa",
+   "ração",
+   "agropecuária",
+   "farmácia"
+  ],
+  "cotas": {
+   "passa·clara·sem": 6,
+   "passa·clara·fraco": 5,
+   "passa·clara·proprio": 5,
+   "passa·ambigua·proprio": 2,
+   "reprova·nota": 1,
+   "reprova·fora do perfil": 1
+  }
+ }
+]

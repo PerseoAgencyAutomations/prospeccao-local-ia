@@ -1,0 +1,407 @@
+{
+ "_nota": "Versão pública: cada negócio aparece pelo id. Nome, place_id, telefone, site, avaliações e texto lido pela IA ficam fora do repositório.",
+ "ar": [
+  {
+   "id": "ar-01",
+   "categoria": "Fornecedor de ar-condicionado",
+   "cidade": "Votorantim",
+   "nota": 4.7,
+   "avaliacoes": 162,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-02",
+   "categoria": "Prestador de serviços de climatização",
+   "cidade": "Sorocaba",
+   "nota": 4.8,
+   "avaliacoes": 46,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-03",
+   "categoria": "Fornecedor de sistemas de ar condicionado",
+   "cidade": "Sorocaba",
+   "nota": 4.9,
+   "avaliacoes": 54,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-04",
+   "categoria": "Fornecedor de sistemas de ar condicionado",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 17,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-05",
+   "categoria": "Fornecedor de ar-condicionado",
+   "cidade": "Sorocaba",
+   "nota": 4,
+   "avaliacoes": 8,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-06",
+   "categoria": "Loja de materiais de construção",
+   "cidade": "Sorocaba",
+   "nota": 4.4,
+   "avaliacoes": 7202,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-07",
+   "categoria": "Prestador de serviços de climatização",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 207,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "ar-08",
+   "categoria": "Eletricista",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 422,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "ar-09",
+   "categoria": "R. José Ferreira, 260\nFechado",
+   "cidade": "Votorantim",
+   "nota": 4.9,
+   "avaliacoes": 61,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-10",
+   "categoria": "Serviço de conserto de aparelhos de ar-condicionado",
+   "cidade": "Sorocaba",
+   "nota": 4.8,
+   "avaliacoes": 23,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-11",
+   "categoria": "Oficina de inspeção veicular",
+   "cidade": "Sorocaba",
+   "nota": 4.7,
+   "avaliacoes": 240,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-12",
+   "categoria": "Igreja evangélica",
+   "cidade": "Sorocaba",
+   "nota": 4.6,
+   "avaliacoes": 1298,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-13",
+   "categoria": "Fornecedor de ar-condicionado",
+   "cidade": "Sorocaba",
+   "nota": 4.4,
+   "avaliacoes": 44,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "ar-14",
+   "categoria": "Eletricista",
+   "cidade": "Sorocaba",
+   "nota": 4.9,
+   "avaliacoes": 96,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "ar-15",
+   "categoria": "Prestador de serviços de climatização",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 37,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "ar-16",
+   "categoria": "Prestador de serviços de climatização",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 108,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "ar-17",
+   "categoria": "Serviço de conserto de aparelhos de ar-condicionado",
+   "cidade": "Sorocaba",
+   "nota": 4.9,
+   "avaliacoes": 147,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "ar-18",
+   "categoria": "Fornecedor de sistemas de ar condicionado",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 22,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "ar-19",
+   "categoria": "Prestador de serviços de climatização",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 12,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "ar-20",
+   "categoria": "Fornecedor",
+   "cidade": "Sorocaba",
+   "nota": null,
+   "avaliacoes": null,
+   "tem_telefone": false,
+   "tem_site_no_maps": false,
+   "fechado": false
+  }
+ ],
+ "vet": [
+  {
+   "id": "vet-01",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.8,
+   "avaliacoes": 108,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "vet-02",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.7,
+   "avaliacoes": 291,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "vet-03",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 102,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "vet-04",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.8,
+   "avaliacoes": 68,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "vet-05",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.5,
+   "avaliacoes": 127,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "vet-06",
+   "categoria": "Veterinário",
+   "cidade": null,
+   "nota": 4.9,
+   "avaliacoes": 104,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "vet-07",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.8,
+   "avaliacoes": 110,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-08",
+   "categoria": "Serviço veterinário de emergência",
+   "cidade": "Sorocaba",
+   "nota": 4.7,
+   "avaliacoes": 1225,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-09",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.9,
+   "avaliacoes": 152,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-10",
+   "categoria": "Hospital Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.7,
+   "avaliacoes": 2004,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-11",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.7,
+   "avaliacoes": 370,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-12",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.3,
+   "avaliacoes": 970,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-13",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 1,
+   "tem_telefone": true,
+   "tem_site_no_maps": false,
+   "fechado": false
+  },
+  {
+   "id": "vet-14",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 57,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-15",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 4.7,
+   "avaliacoes": 622,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-16",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 33,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-17",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 36,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-18",
+   "categoria": "Veterinário",
+   "cidade": "Sorocaba",
+   "nota": 5,
+   "avaliacoes": 18,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-19",
+   "categoria": "Serviço veterinário de emergência",
+   "cidade": "Sorocaba",
+   "nota": 4.3,
+   "avaliacoes": 141,
+   "tem_telefone": false,
+   "tem_site_no_maps": true,
+   "fechado": false
+  },
+  {
+   "id": "vet-20",
+   "categoria": "Farmácia veterinária",
+   "cidade": "Sorocaba",
+   "nota": 4.5,
+   "avaliacoes": 551,
+   "tem_telefone": true,
+   "tem_site_no_maps": true,
+   "fechado": false
+  }
+ ]
+}
