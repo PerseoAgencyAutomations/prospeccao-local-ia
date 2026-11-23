@@ -12,7 +12,7 @@ Prospectar negócio local à mão leva uns 10 minutos por lugar:
 - ler as avaliações e decidir se vale ligar;
 - anotar o que falar.
 
-Com 60 por semana, são 520 horas por ano. O PAT (Process Assessment Tool, da UiPath) deu **Low Hanging Fruit**, com 224 horas liberadas por ano (`pat-respostas.json`).
+Com 60 por semana, são 520 horas por ano. O PAT (Process Assessment Tool) deu **Low Hanging Fruit**, com 224 horas liberadas por ano (`pat-respostas.json`).
 
 ## Como funciona
 
